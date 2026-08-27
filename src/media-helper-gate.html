@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EF Phone Diagnostics</title>
+    <link rel="stylesheet" href="/css/campaign-display.css">
+      <script src="/scripts/media-helper-gate.js"></script>
+    <link type="text/css" rel="stylesheet" href="/css/ef-phone-diagnostics.css">
+</head>
+<body>
+    <div class="layout">
+        <aside class="softphone-panel">
+            <h2>Embeddable Framework</h2>
+            <iframe
+                id="softphone"
+                allow="camera *; microphone *; autoplay *; hid *; local-network-access *; local-network *; loopback-network *"
+                src="https://apps.usw2.pure.cloud/crm/index.html?crm=framework-local-secure"></iframe> 
+                <!-- src="https://apps.usw2.pure.cloud/crm/embeddableFramework.html?enableFrameworkClientId=true&org=jamesrhodespsorg&dedicatedLoginWindow=false" -->
+        </aside>
+        <main class="content-panel">
+            <header class="page-header">
+                <h1>Media Helper Gate (Private Deployment)</h1>
+                <p class="page-subtitle">
+                    Waits for EF login events and detects whether Media Helper authentication is required.
+                </p>
+            </header>
+
+            <section class="panel">
+            <div class="panel-header">
+                <h2>Status</h2>
+            </div>
+
+            <div class="panel-body">
+                <div class="status-row">
+                <span class="status-label">EF Login State:</span>
+                <span id="ef-login-state">Waiting...</span>
+                </div>
+
+                <div class="status-row">
+                <span class="status-label">Media Helper Required:</span>
+                <span id="media-helper-required">Unknown</span>
+                </div>
+
+                <div class="status-row">
+                <span class="status-label">Media Helper Login:</span>
+                <span id="media-helper-login">Unknown</span>
+                </div>
+            </div>
+            </section>
+
+            <section class="panel">
+            <div class="panel-header">
+                <h2>EF Event Log</h2>
+            </div>
+
+            <div class="panel-body">
+                <button id="clear-log-btn" class="btn btn-secondary">
+                Clear Log
+                </button>
+
+                <pre id="event-log" class="event-log"></pre>
+            </div>
+            </section>
+    </main>
+</div>
+    <script src="/nav.js"></script>
+    <script src="/scripts/site-shell.js"></script>
+</body>
+</html>

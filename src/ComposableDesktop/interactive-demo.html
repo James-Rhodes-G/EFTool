@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Genesys Composable Desktop Demo</title>
+    <link rel="stylesheet" href="/css/campaign-display.css">
+  </head>
+  <body>
+    <h1>Genesys Composable Desktop Demo</h1>
+
+    <h2>Controls</h2>
+    <button onclick="register()">Register Component</button>
+    <button onclick="getStatus()">Get Status</button>
+    <button onclick="setLocale()">Set Locale</button>
+    <button onclick="setInteraction()">Set Interaction</button>
+
+    <h2>Broker (Genesys Composable Desktop)</h2>
+    <iframe
+      id="broker"
+      src="https://apps.usw2.pure.cloud/crm-embeddable-desktop/index.html?show-broker-ui=true&mini-display-type=true"
+      width="700"
+      height="50"
+    ></iframe>
+
+    <h2>Copilot Component</h2>
+    <iframe
+      src="https://apps.usw2.pure.cloud/crm-embeddable-desktop/component.html#/copilot?size=small&scope=default"
+      width="700"
+      height="600"
+    ></iframe>
+
+    <script>
+      // ============================================================
+      // CONFIGURATION - Change these values for your integration
+      // ============================================================
+      const COMPONENT_ID = "382a4d5f-35ba-4ef4-8944-b85486117564";
+      const COMPONENT_NAME = "GENESYS_CLOUD_COMPOSABLE_DESKTOP";
+      const INTERACTION_ID = "aec8289a-2e8d-452e-a0c3-1c3e87be93c2";
+      const LOCALE = "en";
+      // ============================================================
+
+      let broker;
+
+      window.addEventListener("DOMContentLoaded", () => {
+        broker = document.getElementById("broker").contentWindow;
+        window.addEventListener("message", handleMessage);
+      });
+
+      function handleMessage(event) {
+        const message =
+          typeof event.data === "string" ? JSON.parse(event.data) : event.data;
+        const { type, data } = message;
+        if (!type?.startsWith("Genesys.ComposableDesktop")) return;
+
+        switch (type) {
+          case "Genesys.ComposableDesktop.REGISTRATION_RESPONSE":
+            console.log(
+              `[DEMO] Message received (${type}): Component registered successfully.`,
+              data
+            );
+            break;
+          case "Genesys.ComposableDesktop.STATUS_UPDATE":
+            console.log(
+              `[DEMO] Message received (${type}): Status update received.`,
+              data
+            );
+            break;
+          case "Genesys.ComposableDesktop.INTERACTION_UPDATE":
+            console.log(
+              `[DEMO] Message received (${type}): Interaction update received.`,
+              data
+            );
+            break;
+          case "Genesys.ComposableDesktop.LOCALE_UPDATE":
+            console.log(
+              `[DEMO] Message received (${type}): Locale update received.`,
+              data
+            );
+            break;
+        }
+      }
+
+      function generateId() {
+        return Math.random().toString(36).substr(2, 9);
+      }
+
+      function register() {
+        if (!validateConfig()) return;
+
+        broker.postMessage(
+          {
+            type: "Genesys.ComposableDesktop.REGISTRATION_REQUEST",
+            data: {
+              componentId: COMPONENT_ID,
+              contextId: generateId(),
+              name: COMPONENT_NAME,
+            },
+          },
+          "*"
+        );
+      }
+
+      function getStatus() {
+        if (!validateConfig()) return;
+
+        broker.postMessage(
+          {
+            type: "Genesys.ComposableDesktop.GET_STATUS",
+            data: { componentId: COMPONENT_ID, contextId: generateId() },
+          },
+          "*"
+        );
+      }
+
+      function setInteraction() {
+        if (!validateConfig()) return;
+
+        broker.postMessage(
+          {
+            type: "Genesys.ComposableDesktop.SET_INTERACTION",
+            data: {
+              componentId: COMPONENT_ID,
+              contextId: generateId(),
+              scope: "default",
+              interactionId: INTERACTION_ID,
+            },
+          },
+          "*"
+        );
+      }
+
+      function setLocale() {
+        if (!validateConfig()) return;
+
+        broker.postMessage(
+          {
+            type: "Genesys.ComposableDesktop.SET_LOCALE",
+            data: {
+              componentId: COMPONENT_ID,
+              contextId: generateId(),
+              locale: LOCALE,
+            },
+          },
+          "*"
+        );
+      }
+
+      function validateConfig() {
+        const missing = [];
+        if (!COMPONENT_ID) missing.push("COMPONENT_ID");
+        if (!COMPONENT_NAME) missing.push("COMPONENT_NAME");
+        if (!INTERACTION_ID) missing.push("INTERACTION_ID");
+
+        if (missing.length > 0) {
+          console.warn(`[DEMO] ⚠️  Please configure: ${missing.join(", ")}`);
+          return false;
+        }
+        return true;
+      }
+    </script>
+    <script src="/nav.js"></script>
+    <script src="/scripts/site-shell.js"></script>
+  </body>
+</html>

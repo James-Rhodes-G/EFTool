@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EF Phone Diagnostics</title>
+    <link rel="stylesheet" href="/css/campaign-display.css">
+    <script src="/scripts/ef-phone-diagnostics.js"></script>
+    <link type="text/css" rel="stylesheet" href="/css/ef-phone-diagnostics.css">
+</head>
+<body>
+    <div class="layout">
+        <aside class="softphone-panel">
+            <h2>Embeddable Framework</h2>
+            <iframe
+                id="softphone"
+                allow="camera *; microphone *; autoplay *; hid *; local-network-access *; local-network *; loopback-network *"
+                src="https://apps.usw2.pure.cloud/crm/index.html?crm=framework-local-secure"></iframe>
+                <!-- <iframe
+                id="softphone"
+                allow="camera *; microphone *"
+                src="https://apps.usw2.pure.cloud/crm/embeddableFramework.html"></iframe>  -->
+        </aside>
+
+        <main class="content">
+            <header class="hero">
+                <h1>EF Phone Diagnostics (Local Server)</h1>
+                <p>Use this page to inspect what the Embeddable Framework emits during login, phone selection, and WebRTC or Media Helper initialization.</p>
+            </header>
+
+            <section class="controls card">
+                <div class="button-row">
+                    <button id="clearEvents">Clear Events</button>
+                    <button id="refreshSnapshots">Refresh API Snapshot</button>
+                    <label class="checkbox">
+                        <input id="autoRefresh" type="checkbox">
+                        Auto refresh snapshot
+                    </label>
+                    <label class="checkbox">
+                        <input id="showOnlyRelevant" type="checkbox" checked>
+                        Show only phone or WebRTC related events
+                    </label>
+                    <label>
+                        <input type="checkbox" id="watchAgentErrors" />
+                        Watch Agent Errors
+                    </label>
+                </div>
+                <div class="search-row">
+                    <label for="eventFilter">Filter text</label>
+                    <input id="eventFilter" type="text" placeholder="station, phone, webrtc, media, login">
+                </div>
+            </section>
+
+            <section class="state-grid">
+                <article class="card">
+                    <h2>Derived State</h2>
+                    <dl class="state-list">
+                        <div>
+                            <dt>Login state</dt>
+                            <dd id="loginState">Unknown</dd>
+                        </div>
+                        <div>
+                            <dt>Selected phone or station</dt>
+                            <dd id="phoneState">Unknown</dd>
+                        </div>
+                        <div>
+                            <dt>WebRTC or Media Helper readiness</dt>
+                            <dd id="webrtcState">Unknown</dd>
+                        </div>
+                        <div>
+                            <dt>Last relevant event</dt>
+                            <dd id="lastRelevantEvent">None</dd>
+                        </div>
+                    </dl>
+                </article>
+
+                <article class="card">
+                    <h2>API Snapshot</h2>
+                    <p class="card-copy">This panel captures authenticated platform data after login so you can compare EF events against current user state.</p>
+                    <div class="snapshot-grid">
+                        <div>
+                            <h3>User</h3>
+                            <pre id="userSnapshot">Waiting for login...</pre>
+                        </div>
+                        <div>
+                            <h3>Presence From Events</h3>
+                            <pre id="presenceSnapshot">Waiting for login...</pre>
+                        </div>
+                        <div>
+                            <h3>Routing From Events</h3>
+                            <pre id="routingSnapshot">Waiting for login...</pre>
+                        </div>
+                        <div>
+                            <h3>Raw station lookup</h3>
+                            <pre id="stationSnapshot">Waiting for login...</pre>
+                        </div>
+                    </div>
+                </article>
+                <article class="card">
+                    <h2>WebRTC Telemetry</h2>
+                    <p class="card-copy">Live stats reported from the embedded iframe. Use this to approximate a waveform or audio activity meter.</p>
+                    <pre id="webrtcTelemetrySnapshot">Waiting for telemetry...</pre>
+                </article>
+            </section>
+
+            <section class="state-grid">
+                <article class="card">
+                    <h2>Relevant Events</h2>
+                    <p class="card-copy">These are events whose payloads contain phone, station, WebRTC, media, microphone, speaker, auth, login, or routing hints.</p>
+                    <pre id="relevantEvents">No events captured yet.</pre>
+                </article>
+
+                <article class="card">
+                    <h2>Latest Raw Event</h2>
+                    <p class="card-copy">This is the most recent event received from the iframe host page.</p>
+                    <pre id="latestEvent">No events captured yet.</pre>
+                </article>
+            </section>
+
+            <section class="card">
+                <h2>All Captured Events</h2>
+                <p class="card-copy">The event feed below is intended for discovery. During testing, select a phone and watch for payload changes related to station association and WebRTC setup.</p>
+                <div class="event-feed-header">
+                    <span>Total events: <strong id="eventCount">0</strong></span>
+                </div>
+                <div id="eventFeed" class="event-feed"></div>
+            </section>
+        </main>
+    </div>
+    <div id="errorModal" class="modal hidden">
+    <div class="modal-content">
+        <span id="errorModalClose">&times;</span>
+        <h3>Agent Error Detected</h3>
+        <div id="errorModalText"></div>
+    </div>
+    </div>
+    <script src="/nav.js"></script>
+    <script src="/scripts/site-shell.js"></script>
+</body>
+</html>

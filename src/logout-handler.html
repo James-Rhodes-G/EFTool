@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout Handler</title>
+    <link rel="stylesheet" href="/css/campaign-display.css">
+    <style>
+        :root {
+            --bg: #eef4f8;
+            --panel: #ffffff;
+            --border: #cbd8e4;
+            --text: #17324b;
+            --muted: #547088;
+            --accent: #0b5cab;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            font-family: "Avenir Next", "Segoe UI", sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(11, 92, 171, 0.16), transparent 28%),
+                linear-gradient(180deg, #f7fafc 0%, var(--bg) 100%);
+            color: var(--text);
+        }
+
+        .panel {
+            width: min(560px, calc(100vw - 32px));
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            box-shadow: 0 18px 48px rgba(23, 50, 75, 0.12);
+            padding: 36px 28px;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0 0 12px;
+            font-size: 34px;
+        }
+
+        p {
+            margin: 0;
+            line-height: 1.6;
+            color: var(--muted);
+        }
+
+        a {
+            color: var(--accent);
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <main class="panel">
+        <h1>Signing Out</h1>
+        <p id="message">Processing logout redirect...</p>
+    </main>
+
+    <script>
+        (function () {
+            var params = new URLSearchParams(window.location.search);
+            var loginUrl = params.get('loginUrl') || 'https://login.usw2.pure.cloud/';
+            var messageEl = document.getElementById('message');
+            var isEfPopup = window.name === 'ef-popup' || sessionStorage.getItem('efPopup') === '1';
+
+            if (isEfPopup) {
+                sessionStorage.removeItem('efPopup');
+                messageEl.textContent = 'Embedded Framework popup detected. Attempting to close this window.';
+                window.close();
+
+                window.setTimeout(function () {
+                    messageEl.innerHTML = 'The popup could not be closed automatically. You can <a href="' + loginUrl + '">return to Genesys login</a> or close this window manually.';
+                }, 500);
+
+                return;
+            }
+
+            messageEl.innerHTML = 'No Embedded Framework popup marker was found. Redirecting to <a href="' + loginUrl + '">Genesys login</a>.';
+            window.setTimeout(function () {
+                window.location.replace(loginUrl);
+            }, 300);
+        }());
+    </script>
+
+    <script src="/nav.js"></script>
+    <script src="/scripts/site-shell.js"></script>
+</body>
+</html>

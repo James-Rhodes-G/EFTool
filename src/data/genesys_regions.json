@@ -1,0 +1,19 @@
+[
+{"label":"US East (N. Virginia)","id":"us-east-1","domain":"mypurecloud.com"},
+{"label":"US East 2 (Ohio)*","id":"us-east-2","domain":"use2.us-gov-pure.cloud"},
+{"label":"US West (Oregon)","id":"us-west-2","domain":"usw2.pure.cloud"},
+{"label":"Canada (Central)","id":"ca-central-1","domain":"cac1.pure.cloud"},
+{"label":"South America (São Paulo)","id":"sa-east-1","domain":"sae1.pure.cloud"},
+{"label":"Mexico (Central)","id":"mx-central-1","domain":"mxc1.pure.cloud"},
+{"label":"Europe (Frankfurt)","id":"eu-central-1","domain":"mypurecloud.de"},
+{"label":"Europe (Ireland)","id":"eu-west-1","domain":"mypurecloud.ie"},
+{"label":"Europe (London)","id":"eu-west-2","domain":"euw2.pure.cloud"},
+{"label":"Europe (Zurich)","id":"eu-central-2","domain":"euc2.pure.cloud"},
+{"label":"Middle East  (UAE)","id":"me-central-1","domain":"mec1.pure.cloud"},
+{"label":"Asia Pacific (Mumbai)","id":"ap-south-1","domain":"aps1.pure.cloud"},
+{"label":"Asia Pacific (Tokyo)","id":"ap-northeast-1","domain":"mypurecloud.jp"},
+{"label":"Asia Pacific (Seoul)","id":"ap-northeast-2","domain":"apne2.pure.cloud"},
+{"label":"Asia Pacific (Osaka)","id":"ap-northeast-3","domain":"apne3.pure.cloud"},
+{"label":"Asia Pacific (Singapore)","id":"ap-southeast-1","domain":"apse1.pure.cloud"},
+{"label":"Asia Pacific (Sydney)","id":"ap-southeast-2","domain":"mypurecloud.com.au"}
+]

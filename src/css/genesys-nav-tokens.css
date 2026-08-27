@@ -1,0 +1,13 @@
+/* Genesys Cloud nav tokens (from Node_Build 2) */
+:root {
+  --genesys-font-nav-header: "Urbanist", "Noto Sans", Roboto, sans-serif;
+  --genesys-color-white-10: #ffffff;
+  --nav-dark-moderate-magenta: #89387b;
+  --nav-command-red: #881429;
+  --nav-dark-moderate-blue: #3d538f;
+  --nav-menu-hover: #1a2b67;
+  --nav-menu-selected: #2954cb;
+  --nav-blue-home: #19327a;
+  --nav-genesys-orange: #ff451b;
+  --apps-toolbar-height: 0px;
+}

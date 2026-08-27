@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campaign Display</title>
+    <link rel="stylesheet" href="/css/campaign-display.css">
+</head>
+<body>
+    <main class="page">
+        <section class="hero">
+            <p class="eyebrow">Genesys Cloud Notifications</p>
+            <h1>Campaign Display</h1>
+            <p class="lede">
+                Subscribe to the agent conversation call stream, inspect raw notification payloads, and
+                display outbound contact-list data when a campaign call is routed to the agent.
+            </p>
+        </section>
+
+        <section class="panel controls">
+            <h2>Connection</h2>
+            <div class="grid">
+                <label>
+                    <span>Genesys Region</span>
+                    <select id="genesysRegionSelect">
+                        <option value="">Loading regions...</option>
+                    </select>
+                </label>
+
+                <label>
+                    <span>Access Token</span>
+                    <textarea id="accessToken" rows="4" autocomplete="off" spellcheck="false" placeholder="Paste a user-context OAuth access token"></textarea>
+                </label>
+
+                <label>
+                    <span>User ID</span>
+                    <input id="userId" type="text" placeholder="Optional. Leave blank to auto-resolve via /api/v2/users/me">
+                </label>
+
+                <label>
+                    <span>Subscription Topics</span>
+                    <textarea id="topicId" rows="4" placeholder="One topic per line. Supports {userId} or {id}. Example:
+v2.users.{userId}.conversations.calls
+v2.users.{id}.alerting.alerts"></textarea>
+                </label>
+            </div>
+
+            <div class="actions">
+                <button id="startSubscription">Start Subscription</button>
+                <button id="stopSubscription" class="secondary">Stop Subscription</button>
+                <button id="clearOutput" class="secondary">Clear Output</button>
+            </div>
+
+            <div class="statusRow">
+                <div>
+                    <strong>Status:</strong>
+                    <span id="statusText">Idle</span>
+                </div>
+                <div>
+                    <strong>Channel:</strong>
+                    <span id="channelText">Not created</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="panel callControls">
+            <h2>Call Controls</h2>
+            <div class="actions">
+                <button id="toggleMute">Mute</button>
+                <button id="endCall" class="danger">End Call</button>
+            </div>
+            <div class="statusRow">
+                <div>
+                    <strong>Active Conversation:</strong>
+                    <span id="activeConversationText">None</span>
+                </div>
+                <div>
+                    <strong>Agent Participant:</strong>
+                    <span id="activeParticipantText">None</span>
+                </div>
+                <div>
+                    <strong>Mute State:</strong>
+                    <span id="muteStateText">Unknown</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="panel outputs">
+            <div class="output">
+                <h2>WSS Stream Output</h2>
+                <textarea id="streamOutput" rows="22" readonly></textarea>
+            </div>
+
+            <div class="output">
+                <h2>Contact List Lookup Output</h2>
+                <textarea id="lookupOutput" rows="22" readonly></textarea>
+            </div>
+        </section>
+    </main>
+
+    <script src="/scripts/genesys-connection-fields.js"></script>
+    <script src="/scripts/campaign-display.js"></script>
+
+    <script src="/nav.js"></script>
+    <script src="/scripts/site-shell.js"></script>
+</body>
+</html>

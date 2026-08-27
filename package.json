@@ -1,0 +1,19 @@
+{
+  "name": "purecloud-embeddable-framework-example",
+  "version": "1.0.0",
+  "description": "Example project that implements the PureCloud Embeddable Framework",
+  "main": "server.js",
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

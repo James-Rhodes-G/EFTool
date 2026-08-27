@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EF Launch Pad</title>
+    <link rel="stylesheet" href="/css/campaign-display.css">
+    <style>
+        :root {
+            --bg: #edf4f8;
+            --panel: #ffffff;
+            --border: #cad8e3;
+            --text: #18324a;
+            --muted: #567086;
+            --accent: #0b5cab;
+            --accent-dark: #073a6d;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            font-family: "Avenir Next", "Segoe UI", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top left, rgba(11, 92, 171, 0.18), transparent 28%),
+                linear-gradient(180deg, #f7fafc 0%, var(--bg) 100%);
+        }
+
+        .panel {
+            width: min(760px, calc(100vw - 32px));
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            box-shadow: 0 18px 48px rgba(24, 50, 74, 0.12);
+            padding: 40px 32px;
+        }
+
+        .eyebrow {
+            margin: 0 0 10px;
+            color: var(--accent);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 0 0 12px;
+            font-size: 38px;
+            line-height: 1.05;
+        }
+
+        .lede {
+            margin: 0 0 28px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .steps {
+            display: grid;
+            gap: 18px;
+        }
+
+        .step {
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 22px;
+            background: #fbfdff;
+        }
+
+        .step h2 {
+            margin: 0 0 8px;
+            font-size: 22px;
+        }
+
+        .step p {
+            margin: 0 0 16px;
+            color: var(--muted);
+            line-height: 1.55;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        a,
+        button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 220px;
+            border: 0;
+            border-radius: 999px;
+            padding: 14px 18px;
+            text-decoration: none;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            color: #ffffff;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+        }
+
+        .secondary {
+            color: var(--accent-dark);
+            background: #e8f1f9;
+        }
+
+        .note {
+            margin-top: 24px;
+            padding-top: 18px;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            line-height: 1.55;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <main class="panel">
+        <p class="eyebrow">Embedded Framework</p>
+        <h1>EF Launch Pad</h1>
+        <p class="lede">
+            Use this page to establish a top-level Genesys Cloud session first, then open the local
+            Embedded Framework host page. This is the cleanest available test flow for Azure-backed
+            SSO with the local EF example.
+        </p>
+
+        <section class="steps">
+            <article class="step">
+                <h2>Step 1: Login to Genesys Cloud</h2>
+                <p>
+                    Open Genesys Cloud in a top-level window or tab and complete the Azure SSO flow there.
+                    Do not skip this step. The goal is to establish the Genesys session before EF loads.
+                </p>
+                <div class="actions">
+                    <a href="https://apps.usw2.pure.cloud/directory/" target="_blank" rel="noopener noreferrer">Open Genesys Cloud</a>
+                </div>
+            </article>
+
+            <article class="step">
+                <h2>Step 2: Open Embedded Framework</h2>
+                <p>
+                    After the Genesys Cloud session is active in the same browser profile, open the local
+                    EF host page.
+                </p>
+                <div class="actions">
+                    <a class="secondary" href="https://localhost/example.html">Open Embedded Framework</a>
+                    <button id="openFrameworkPopup" type="button">Open Embedded Framework Popup</button>
+                </div>
+            </article>
+        </section>
+
+        <p class="note">
+            If EF still prompts for Azure login after Step 1, then the existing Genesys session is not being reused
+            by the embedded flow.
+        </p>
+    </main>
+
+    <script>
+        document.getElementById('openFrameworkPopup').addEventListener('click', function () {
+            var popup = window.open(
+                'https://localhost/example.html?popup=1',
+                'ef-popup',
+                'popup=yes,width=540,height=860,resizable=yes,scrollbars=yes'
+            );
+
+            if (popup) {
+                popup.name = 'ef-popup';
+            }
+        });
+    </script>
+
+    <script src="/nav.js"></script>
+    <script src="/scripts/site-shell.js"></script>
+</body>
+</html>

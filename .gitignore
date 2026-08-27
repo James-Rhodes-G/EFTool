@@ -1,0 +1,32 @@
+# --- SECURITY & CREDENTIALS (Crucial) ---
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+id_rsa
+secrets.json
+
+# --- SYSTEM FILES (Junk) ---
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+*.tmp
+
+# --- COMMON DEPENDENCIES (Massive folders) ---
+node_modules/
+bower_components/
+.npm/
+
+# --- IDE & EDITOR SETTINGS (Optional personal settings) ---
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# --- Framwork file has secure data ----
+framework.js
+*_framework.js

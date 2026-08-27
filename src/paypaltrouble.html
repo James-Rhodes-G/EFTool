@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>EF Message Logger</title>
+  <link rel="stylesheet" href="/css/campaign-display.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 16px;
+    }
+
+    .layout {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      width: 100%;
+    }
+
+    .left-panel {
+      flex: 0 0 380px;
+      min-width: 380px;
+    }
+
+    .right-panel {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    iframe {
+      width: 100%;
+      height: 600px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    .log-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .log-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .log-window {
+      background: #111;
+      color: #0f0;
+      padding: 12px;
+      height: 600px;
+      overflow: auto;
+      white-space: pre-wrap;
+      border: 1px solid #333;
+      box-sizing: border-box;
+      margin: 0;
+      width: 100%;
+    }
+
+    button {
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+  </style>
+  <script src="/scripts/ef-iframe-config.js"></script>
+</head>
+<body>
+  <h2>EF Message Logger</h2>
+
+  <div class="layout">
+    <div class="left-panel">
+      <div id="softphone-container"></div>
+    </div>
+
+    <div class="right-panel">
+      <div class="log-header">
+        <h3 style="margin: 0;">Messages</h3>
+        <div class="log-actions">
+          <button id="openParserBtn" type="button">Open in Parser</button>
+          <button id="clearBtn" type="button" class="secondary">Clear</button>
+        </div>
+      </div>
+      <pre id="log" class="log-window"></pre>
+    </div>
+  </div>
+
+  <script src="/scripts/ef-message-logger.js"></script>
+  <script src="/nav.js"></script>
+  <script src="/scripts/site-shell.js"></script>
+</body>
+</html>

@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bridge POC Tester</title>
+  <link rel="stylesheet" href="/css/campaign-display.css">
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f8fb;
+      --panel: #ffffff;
+      --border: #d8e0ea;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --accent: #2563eb;
+      --accent-2: #0f766e;
+      --danger: #b91c1c;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --radius: 16px;
+    }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(180deg, #eef4ff 0%, var(--bg) 100%);
+      color: var(--text);
+    }
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .hero h1 { margin: 0 0 8px; font-size: 32px; }
+    .hero p { margin: 0; color: var(--muted); max-width: 68ch; }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+    .card h2 { margin: 0 0 14px; font-size: 18px; }
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin: 12px 0 6px;
+    }
+    input, textarea, select {
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font: inherit;
+      background: #fff;
+    }
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+    button {
+      border: 0;
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-weight: 700;
+      cursor: pointer;
+      color: white;
+      background: var(--accent);
+    }
+    button.secondary { background: var(--accent-2); }
+    button.ghost { background: #475569; }
+    .status { margin-top: 12px; font-size: 13px; color: var(--muted); }
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-size: 12px;
+      line-height: 1.45;
+      background: #0b1220;
+      color: #e5eefc;
+      border-radius: 12px;
+      padding: 14px;
+      overflow: auto;
+      min-height: 360px;
+    }
+    .small { font-size: 12px; color: var(--muted); }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #e0ecff;
+      color: #1d4ed8;
+      margin-bottom: 14px;
+    }
+    .error { color: var(--danger); }
+    @media (max-width: 960px) {
+      .grid { grid-template-columns: 1fr; }
+      .hero { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <div>
+        <div class="pill">Genesys Bridge POC Tester</div>
+        <h1>Conference bridge decision harness</h1>
+        <p>
+          Send a test payload into the same route Architect will use later. The server will authenticate to Genesys Cloud,
+          inspect the stored conference conversation, and update the bridge anchor when a new caller should become the first caller.
+        </p>
+      </div>
+      <div class="small">Route: <code>/api/bridge-poc/evaluate</code></div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h2>Inputs</h2>
+        <div class="row">
+          <div>
+            <label for="conferenceConversationId">Conference conversation ID</label>
+            <input id="conferenceConversationId" placeholder="conference conversation id" />
+          </div>
+          <div>
+            <label for="currentConversationId">Current conversation ID</label>
+            <input id="currentConversationId" placeholder="current conversation id" />
+          </div>
+        </div>
+        <label for="dnis">DNIS</label>
+        <input id="dnis" placeholder="bridge DNIS" />
+        <label for="payload">Optional overrides (JSON)</label>
+        <textarea id="payload">{}</textarea>
+        <div class="actions">
+          <button id="runBtn">Run bridge check</button>
+          <button id="healthBtn" class="secondary">Health check</button>
+          <button id="configBtn" class="ghost">Show config</button>
+        </div>
+        <div id="status" class="status">Ready.</div>
+      </div>
+
+      <div class="card">
+        <h2>Result</h2>
+        <pre id="output">No result yet.</pre>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const output = document.getElementById('output');
+    const status = document.getElementById('status');
+
+    function readPayload() {
+      const raw = document.getElementById('payload').value || '{}';
+      let extra = {};
+      try {
+        extra = JSON.parse(raw);
+      } catch (error) {
+        throw new Error('Optional overrides must be valid JSON.');
+      }
+      return {
+        conferenceConversationId: document.getElementById('conferenceConversationId').value.trim(),
+        currentConversationId: document.getElementById('currentConversationId').value.trim(),
+        dnis: document.getElementById('dnis').value.trim(),
+        ...extra,
+      };
+    }
+
+    async function requestJson(path, payload) {
+      const response = await fetch(path, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const text = await response.text();
+      let data = text;
+      try { data = text ? JSON.parse(text) : {}; } catch (error) {}
+      if (!response.ok) {
+        const message = typeof data === 'string' ? data : (data.error || response.statusText);
+        throw new Error(message);
+      }
+      return data;
+    }
+
+    async function getJson(path) {
+      const response = await fetch(path);
+      const text = await response.text();
+      let data = text;
+      try { data = text ? JSON.parse(text) : {}; } catch (error) {}
+      if (!response.ok) {
+        const message = typeof data === 'string' ? data : (data.error || response.statusText);
+        throw new Error(message);
+      }
+      return data;
+    }
+
+    document.getElementById('runBtn').addEventListener('click', async () => {
+      try {
+        status.textContent = 'Running bridge evaluation...';
+        output.textContent = 'Working...';
+        const payload = readPayload();
+        const result = await requestJson('/api/bridge-poc/evaluate', payload);
+        output.textContent = JSON.stringify(result, null, 2);
+        status.textContent = `Complete: ${result.status || 'ok'}`;
+      } catch (error) {
+        output.textContent = JSON.stringify({ error: error.message }, null, 2);
+        status.innerHTML = `<span class="error">${error.message}</span>`;
+      }
+    });
+
+    document.getElementById('healthBtn').addEventListener('click', async () => {
+      try {
+        status.textContent = 'Checking health...';
+        const result = await getJson('/api/bridge-poc/health');
+        output.textContent = JSON.stringify(result, null, 2);
+        status.textContent = 'Health check complete.';
+      } catch (error) {
+        output.textContent = JSON.stringify({ error: error.message }, null, 2);
+        status.innerHTML = `<span class="error">${error.message}</span>`;
+      }
+    });
+
+    document.getElementById('configBtn').addEventListener('click', async () => {
+      try {
+        status.textContent = 'Loading config...';
+        const result = await getJson('/api/bridge-poc/config');
+        output.textContent = JSON.stringify(result, null, 2);
+        status.textContent = 'Config loaded.';
+      } catch (error) {
+        output.textContent = JSON.stringify({ error: error.message }, null, 2);
+        status.innerHTML = `<span class="error">${error.message}</span>`;
+      }
+    });
+  </script>
+  <script src="/nav.js"></script>
+  <script src="/scripts/site-shell.js"></script>
+</body>
+</html>

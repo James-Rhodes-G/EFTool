@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EF Message Parser</title>
+  <link rel="stylesheet" href="/css/campaign-display.css">
+  <link rel="stylesheet" href="/css/ef-message-parser.css">
+</head>
+<body>
+  <main class="page parser-page">
+    <section class="hero">
+      <p class="eyebrow">Embeddable Framework</p>
+      <h1>EF Message Parser</h1>
+      <p class="lede">
+        Review exported EF postMessage logs one message at a time. Expand each card to inspect the payload
+        with a collapsible JSON tree.
+      </p>
+    </section>
+
+    <section class="panel">
+      <div class="parser-toolbar">
+        <a class="button secondary" href="/paypaltrouble.html">Back to Logger</a>
+        <label class="parser-filter">
+          <input id="hideRawFilter" type="checkbox" checked />
+          Hide raw messages
+        </label>
+        <button id="expandCardsBtn" type="button">Expand All Cards</button>
+        <button id="collapseCardsBtn" type="button" class="secondary">Collapse All Cards</button>
+        <button id="expandJsonBtn" type="button">Expand All JSON</button>
+        <button id="collapseJsonBtn" type="button" class="secondary">Collapse All JSON</button>
+        <button id="clearImportBtn" type="button" class="danger">Clear Import</button>
+      </div>
+
+      <div class="parser-summary">
+        <div><strong>Messages:</strong> <span id="messageCount">0</span></div>
+        <div><strong>Exported:</strong> <span id="exportedAt">Not available</span></div>
+        <div><strong>Source:</strong> <span id="sourceLabel">No import found</span></div>
+      </div>
+
+      <div id="emptyState" class="parser-empty" hidden>
+        <p>No exported message log was found in this browser session.</p>
+        <p>Open <a href="/paypaltrouble.html">EF Message Logger</a>, collect messages, then click <strong>Open in Parser</strong>.</p>
+      </div>
+
+      <div id="messageList" class="message-list" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script src="/scripts/json-tree.js"></script>
+  <script src="/scripts/ef-message-parser.js"></script>
+  <script src="/nav.js"></script>
+  <script src="/scripts/site-shell.js"></script>
+</body>
+</html>

@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PayPal Callback Builder</title>
+  <link rel="stylesheet" href="/css/campaign-display.css">
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --panel: #ffffff;
+      --border: #d9e2ef;
+      --text: #172033;
+      --muted: #5a677d;
+      --brand: #0b3d73;
+      --brand2: #1d6fd6;
+      --danger: #c53030;
+      --success: #1f7a3f;
+      --logbg: #0b1220;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .page {
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .hero {
+      margin-bottom: 20px;
+    }
+
+    .eyebrow {
+      margin: 0 0 8px 0;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--brand2);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    h1, h2, p { margin-top: 0; }
+
+    h1 {
+      margin-bottom: 10px;
+      font-size: 34px;
+      color: var(--brand);
+    }
+
+    .lede {
+      margin-bottom: 0;
+      max-width: 1050px;
+      line-height: 1.5;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(15, 23, 42, .06);
+      padding: 20px;
+      margin-bottom: 18px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #223046;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid #cfd8e3;
+      border-radius: 10px;
+      padding: 11px 12px;
+      font-size: 14px;
+      font-family: inherit;
+      background: #fff;
+      color: #111827;
+    }
+
+    textarea { resize: vertical; }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 11px 16px;
+      background: var(--brand2);
+      color: white;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button.secondary {
+      background: #e8eef7;
+      color: #244165;
+    }
+
+    button.danger {
+      background: var(--danger);
+    }
+
+    button:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+    .statusRow {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+      font-size: 13px;
+      color: #223046;
+    }
+
+    .statusCard {
+      padding: 12px 14px;
+      background: #f8fbff;
+      border: 1px solid #e0e8f2;
+      border-radius: 12px;
+    }
+
+    .statusCard strong {
+      display: inline-block;
+      min-width: 170px;
+    }
+
+    .log-window {
+      background: var(--logbg);
+      color: #b8f6c8;
+      padding: 14px;
+      min-height: 420px;
+      max-height: 640px;
+      overflow: auto;
+      border-radius: 12px;
+      border: 1px solid #243047;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: Consolas, Menlo, Monaco, "Courier New", monospace;
+      font-size: 13px;
+      line-height: 1.4;
+      margin: 0;
+    }
+
+    .hint {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #edf4ff;
+      color: #335;
+      font-size: 12px;
+      font-weight: 700;
+      margin-left: 8px;
+    }
+
+    @media (max-width: 1000px) {
+      .grid, .statusRow { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <p class="eyebrow">Genesys Cloud Callback Tool</p>
+      <h1>PayPal Callback Builder <span class="pill">active conversation only</span></h1>
+      <p class="lede">
+        Paste an access token and an active call conversation ID. The page will fetch the conversation,
+        find the customer participant, find the last ACD participant for the queue, and create a scheduled
+        callback using the participant callback API.
+      </p>
+    </section>
+
+    <section class="panel">
+      <h2>Connection</h2>
+      <div class="grid">
+        <label>
+          <span>Genesys Region</span>
+          <select id="genesysRegionSelect">
+            <option value="">Loading regions...</option>
+          </select>
+        </label>
+
+        <label>
+          <span>Access Token</span>
+          <textarea id="accessToken" rows="4" autocomplete="off" spellcheck="false" placeholder="Paste a user-context OAuth access token"></textarea>
+        </label>
+
+        <label>
+          <span>Conversation ID</span>
+          <input id="conversationId" type="text" placeholder="Paste the active conversation ID" />
+        </label>
+
+        <label>
+          <span>Schedule Offset</span>
+          <select id="delayMinutes">
+            <option value="30">30 minutes</option>
+            <option value="60" selected>1 hour</option>
+            <option value="90">1 hour 30 minutes</option>
+            <option value="120">2 hours</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="actions">
+        <button id="scheduleCallback">Schedule Callback</button>
+        <button id="clearLog" class="secondary" type="button">Clear Log</button>
+      </div>
+
+      <div class="statusRow">
+        <div class="statusCard"><strong>Status:</strong> <span id="statusText">Idle</span></div>
+        <div class="statusCard"><strong>Target Time:</strong> <span id="targetTimeText">Not set</span></div>
+        <div class="statusCard"><strong>Customer Participant:</strong> <span id="customerParticipantText">Not found</span></div>
+        <div class="statusCard"><strong>ACD Queue:</strong> <span id="queueText">Not found</span></div>
+      </div>
+
+      <p class="hint">
+        Callback payload fields used:
+        <code>queueId</code>,
+        <code>routingData.queueId</code>,
+        <code>callbackUserName</code>,
+        <code>callbackNumbers</code>,
+        <code>callbackScheduledTime</code>,
+        <code>validateCallbackNumbers</code>,
+        and <code>data</code>.
+      </p>
+    </section>
+
+    <section class="panel">
+      <h2>Log Output</h2>
+      <pre id="logWindow" class="log-window"></pre>
+    </section>
+  </main>
+
+  <script src="/scripts/genesys-connection-fields.js"></script>
+  <script src="./scripts/paypal-callback-builder.js"></script>
+  <script src="/nav.js"></script>
+  <script src="/scripts/site-shell.js"></script>
+</body>
+</html>

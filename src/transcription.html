@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transcription Display</title>
+    <link rel="stylesheet" href="/css/campaign-display.css">
+</head>
+<body>
+    <main class="page">
+        <section class="hero">
+            <p class="eyebrow">Genesys Cloud Notifications</p>
+            <h1>Transcription Display</h1>
+            <p class="lede">
+                Listen to the user conversation stream, subscribe to each conversation transcription stream as it appears,
+                and render the incoming transcripts in real time.
+            </p>
+        </section>
+
+        <section class="panel controls">
+            <h2>Connection</h2>
+            <div class="grid">
+                <label>
+                    <span>Genesys Region</span>
+                    <select id="genesysRegionSelect">
+                        <option value="">Loading regions...</option>
+                    </select>
+                </label>
+
+                <label>
+                    <span>Access Token</span>
+                    <textarea id="accessToken" rows="4" autocomplete="off" spellcheck="false" placeholder="Paste a user-context OAuth access token"></textarea>
+                </label>
+
+                <label>
+                    <span>User ID</span>
+                    <input id="userId" type="text" placeholder="Optional. Leave blank to auto-resolve via /api/v2/users/me">
+                </label>
+            </div>
+
+            <div class="actions">
+                <button id="startSubscription">Start Subscription</button>
+                <button id="stopSubscription" class="secondary">Stop Subscription</button>
+                <button id="clearOutput" class="secondary">Clear Output</button>
+            </div>
+
+            <div class="statusRow">
+                <div>
+                    <strong>Status:</strong>
+                    <span id="statusText">Idle</span>
+                </div>
+                <div>
+                    <strong>Channel:</strong>
+                    <span id="channelText">Not created</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="panel callSummary">
+            <h2>Current Conversation</h2>
+            <div class="summaryGrid">
+                <div class="summaryItem">
+                    <span class="summaryLabel">Conversation ID</span>
+                    <span id="conversationIdText" class="summaryValue">None</span>
+                </div>
+                <div class="summaryItem">
+                    <span class="summaryLabel">ANI</span>
+                    <span id="aniText" class="summaryValue">None</span>
+                </div>
+                <div class="summaryItem">
+                    <span class="summaryLabel">Status</span>
+                    <span id="conversationStatusText" class="summaryValue">None</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="panel streamPanel">
+            <div class="panelHeader">
+                <h2>WSS Stream Output</h2>
+                <p>Live transcription rendering from subscribed conversation streams.</p>
+            </div>
+            <div id="transcriptionOutput" class="transcriptionOutput" aria-live="polite"></div>
+        </section>
+
+        <section class="panel logPanel">
+            <div class="panelHeader">
+                <h2>Received Stream Messages</h2>
+                <p>Readable event log with timestamps and the raw JSON payload for each message.</p>
+            </div>
+            <div id="messageLog" class="messageLog" aria-live="polite"></div>
+        </section>
+    </main>
+
+    <script src="/scripts/genesys-connection-fields.js"></script>
+    <script src="/scripts/transcription.js"></script>
+    <script src="/nav.js"></script>
+    <script src="/scripts/site-shell.js"></script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Genesys Composable Desktop - Copilot Component Demo</title>
+    <link rel="stylesheet" href="/css/campaign-display.css">
+  </head>
+  <body>
+    <iframe
+      id="broker"
+      src="https://apps.usw2.pure.cloud/crm-embeddable-desktop/index.html"
+      style="display: none"
+    ></iframe>
+    <iframe
+      id="component"
+      src="https://apps.usw2.pure.cloud/crm-embeddable-desktop/component.html#/copilot?size=small&scope=default"
+      width="100%"
+      height="500"
+    ></iframe>
+
+    <script>
+      // ============================================================
+      // CONFIGURATION - Change these values for your integration
+      // ============================================================
+      const COMPONENT_ID = "382a4d5f-35ba-4ef4-8944-b85486117564";
+      const COMPONENT_NAME = "GENESYS_CLOUD_COMPOSABLE_DESKTOP";
+      const INTERACTION_ID = "aec8289a-2e8d-452e-a0c3-1c3e87be93c2";
+      // ============================================================
+
+      let broker;
+      let isRegistered = false;
+
+      window.addEventListener("DOMContentLoaded", () => {
+        broker = document.getElementById("broker").contentWindow;
+        window.addEventListener("message", handleMessage);
+
+        getStatus();
+      });
+
+      function handleMessage(event) {
+        const message =
+          typeof event.data === "string" ? JSON.parse(event.data) : event.data;
+        const { type, data } = message;
+
+        if (!type?.startsWith("Genesys.ComposableDesktop")) return;
+
+        switch (type) {
+          case "Genesys.ComposableDesktop.REGISTRATION_RESPONSE":
+            console.log("[DEMO] Component registered successfully");
+            isRegistered = true;
+            break;
+          case "Genesys.ComposableDesktop.STATUS_UPDATE":
+            console.log("[DEMO] Status update received", data);
+
+            if (
+              data.contextId === "handshake" ||
+              data.contextId === "initial"
+            ) {
+              register();
+              console.log("[DEMO] Registration request sent after handshake");
+              return;
+            }
+
+            if (isRegistered && data.authenticated) {
+              setInteraction();
+              console.log("[DEMO] Set interaction sent after handshake");
+            }
+
+            break;
+        }
+      }
+
+      function getStatus() {
+        if (!validateConfig()) return;
+
+        broker.postMessage(
+          {
+            type: "Genesys.ComposableDesktop.GET_STATUS",
+            data: {
+              componentId: COMPONENT_ID,
+              contextId: "handshake",
+            },
+          },
+          "*"
+        );
+      }
+
+      function register() {
+        if (!validateConfig()) return;
+
+        broker.postMessage(
+          {
+            type: "Genesys.ComposableDesktop.REGISTRATION_REQUEST",
+            data: {
+              componentId: COMPONENT_ID,
+              name: COMPONENT_NAME,
+            },
+          },
+          "*"
+        );
+      }
+
+      function setInteraction() {
+        if (!validateConfig()) return;
+
+        broker.postMessage(
+          {
+            type: "Genesys.ComposableDesktop.SET_INTERACTION",
+            data: {
+              componentId: COMPONENT_ID,
+              scope: "default",
+              interactionId: INTERACTION_ID,
+            },
+          },
+          "*"
+        );
+      }
+
+      function validateConfig() {
+        const missing = [];
+        if (!COMPONENT_ID) missing.push("COMPONENT_ID");
+        if (!COMPONENT_NAME) missing.push("COMPONENT_NAME");
+        if (!INTERACTION_ID) missing.push("INTERACTION_ID");
+
+        if (missing.length > 0) {
+          console.warn(`[DEMO] ⚠️  Please configure: ${missing.join(", ")}`);
+          return false;
+        }
+        return true;
+      }
+    </script>
+    <script src="/nav.js"></script>
+    <script src="/scripts/site-shell.js"></script>
+  </body>
+</html>

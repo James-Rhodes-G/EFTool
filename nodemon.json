@@ -1,0 +1,8 @@
+{
+  "watch": ["server.js", "src/bridge", ".env"],
+  "ext": "js,json,env",
+  "ignore": ["node_modules/"],
+  "exec": "node server.js",
+  "signal": "SIGTERM",
+  "delay": "200ms"
+}
