@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Notifications</title>
+    <link rel="stylesheet" href="/css/campaign-display.css">
+    <link rel="stylesheet" href="/css/user-notifications.css">
+    <script src="/scripts/ef-iframe-config.js"></script>
+</head>
+<body>
+    <main class="page">
+        <section class="hero">
+            <p class="eyebrow">Genesys Cloud Notifications</p>
+            <h1>User Notifications</h1>
+            <p class="lede">
+                Subscribe to user-scoped notification topics for the user logged into the embedded client.
+                Includes <code>v2.users.{id}.persistentconnection</code> by default. Raw WSS output is shown below;
+                use <strong>Open in Parser</strong> for structured review.
+            </p>
+        </section>
+
+        <div class="user-notifications-layout">
+            <aside class="user-notifications-iframe-wrap">
+                <h2>Embeddable Framework</h2>
+                <p class="muted">Log in here. The diagnostics token and connected user are captured automatically.</p>
+                <div id="softphone-container"></div>
+            </aside>
+
+            <section class="panel user-notifications-panel">
+                <h2>User Notification Subscription</h2>
+
+                <div class="user-notifications-form">
+                    <div class="grid">
+                        <label>
+                            <span>Genesys Region</span>
+                            <select id="genesysRegionSelect">
+                                <option value="">Loading regions...</option>
+                            </select>
+                        </label>
+
+                        <label>
+                            <span>Access Token</span>
+                            <textarea id="accessToken" rows="3" autocomplete="off" spellcheck="false" placeholder="Filled from EF after login, or paste a token"></textarea>
+                        </label>
+                    </div>
+
+                    <div class="field-container">
+                        <span class="field-label">Connected user</span>
+                        <div id="connectedUserReadout" class="connected-user-readout muted-wait">Log in to the embedded client to resolve the connected user.</div>
+                    </div>
+
+                    <div id="topicPickerHost"></div>
+
+                    <div class="user-notifications-form__actions">
+                        <button id="startSubscription" type="button" disabled>Start Subscription</button>
+                        <button id="stopSubscription" type="button" class="secondary" disabled>Stop Subscription</button>
+                        <button id="openParserBtn" type="button" class="secondary" disabled>Open in Parser</button>
+                        <button id="clearOutput" type="button" class="secondary">Clear Output</button>
+                    </div>
+                </div>
+
+                <div class="user-notifications-status">
+                    <div><strong>Status:</strong> <span id="statusText">Idle</span></div>
+                    <div><strong>Channel:</strong> <span id="channelText">Not created</span></div>
+                    <div><strong>Messages:</strong> <span id="messageCountText">0</span></div>
+                </div>
+
+                <div id="subscriptionResults"></div>
+
+                <div class="output">
+                    <h2>WSS Stream Output</h2>
+                    <textarea id="streamOutput" class="user-notifications-stream" rows="22" readonly></textarea>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="/scripts/genesys-connection-fields.js"></script>
+    <script src="/scripts/ef-notification-topics.js"></script>
+    <script src="/scripts/ef-notification-client.js"></script>
+    <script src="/scripts/ef-topic-multiselect.js"></script>
+    <script src="/scripts/ef-diagnostics-auth.js"></script>
+    <script src="/scripts/user-notifications.js"></script>
+    <script src="/nav.js"></script>
+    <script src="/scripts/site-shell.js"></script>
+</body>
+</html>

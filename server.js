@@ -92,6 +92,7 @@ const NAV_MANIFEST = [
     icon: '☎',
     pages: [
       { path: 'paypaltrouble.html', label: 'EF Message Logger' },
+      { path: 'user-notifications.html', label: 'User Notifications' },
       { path: 'ef-message-parser.html', label: 'EF Message Parser' },
       { path: 'ef-phone-diagnostics.html', label: 'EF Phone Diagnostics' },
       { path: 'media-helper-gate.html', label: 'EF Phone Diagnostics (Media Helper)' },
