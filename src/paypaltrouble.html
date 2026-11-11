@@ -4,6 +4,7 @@
   <meta charset="utf-8" />
   <title>EF Message Logger</title>
   <link rel="stylesheet" href="/css/campaign-display.css">
+  <link rel="stylesheet" href="/css/ef-copy-buttons.css">
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -83,12 +84,18 @@
       <div class="log-header">
         <h3 style="margin: 0;">Messages</h3>
         <div class="log-actions">
+          <button id="copyLogBtn" type="button" class="btn-copy-all secondary">Copy all</button>
           <button id="openParserBtn" type="button">Open in Parser</button>
           <button id="clearBtn" type="button" class="secondary">Clear</button>
         </div>
       </div>
       <pre id="log" class="log-window"></pre>
-      <h3 style="margin: 16px 0 8px;">Participant data</h3>
+      <div class="log-header" style="margin-top: 16px;">
+        <h3 style="margin: 0;">Participant data</h3>
+        <div class="log-actions">
+          <button id="copyParticipantLogBtn" type="button" class="btn-copy-all secondary">Copy all</button>
+        </div>
+      </div>
       <p style="margin: 0 0 8px; font-size: 14px; color: #444;">
         Conversation notifications (platform WebSocket) and any EF payloads that include a
         <code>participants</code> array appear here after you log in to the embedded client.
@@ -97,6 +104,7 @@
     </div>
   </div>
 
+  <script src="/scripts/ef-clipboard.js"></script>
   <script src="/scripts/ef-message-logger.js"></script>
   <script src="/nav.js"></script>
   <script src="/scripts/site-shell.js"></script>

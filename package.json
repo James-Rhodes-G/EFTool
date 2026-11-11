@@ -1,7 +1,7 @@
 {
   "name": "purecloud-embeddable-framework-example",
   "version": "1.0.0",
-  "description": "Example project that implements the PureCloud Embeddable Framework",
+  "description": "Local Genesys Cloud Embedded Framework dev server: EF message logger, user notifications, parser, diagnostics, and streaming test pages",
   "main": "server.js",
   "author": "",
   "license": "MIT",

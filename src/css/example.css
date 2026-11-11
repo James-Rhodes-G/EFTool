@@ -1,4 +1,5 @@
-.softphone {
+.softphone iframe,
+#softphone {
     width: 340px;
     height: 650px;
     position: fixed;

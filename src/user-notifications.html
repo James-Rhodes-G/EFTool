@@ -6,6 +6,7 @@
     <title>User Notifications</title>
     <link rel="stylesheet" href="/css/campaign-display.css">
     <link rel="stylesheet" href="/css/user-notifications.css">
+    <link rel="stylesheet" href="/css/ef-copy-buttons.css">
     <script src="/scripts/ef-iframe-config.js"></script>
 </head>
 <body>
@@ -16,7 +17,7 @@
             <p class="lede">
                 Subscribe to user-scoped notification topics for the user logged into the embedded client.
                 Includes <code>v2.users.{id}.persistentconnection</code> by default. Raw WSS output is shown below;
-                use <strong>Open in Parser</strong> for structured review.
+                use <strong>Open in Parser</strong> for structured review, or <strong>Copy all</strong> on the stream.
             </p>
         </section>
 
@@ -69,7 +70,10 @@
                 <div id="subscriptionResults"></div>
 
                 <div class="output">
-                    <h2>WSS Stream Output</h2>
+                    <div class="output-header-row">
+                        <h2>WSS Stream Output</h2>
+                        <button id="copyStreamBtn" type="button" class="btn-copy-all secondary">Copy all</button>
+                    </div>
                     <textarea id="streamOutput" class="user-notifications-stream" rows="22" readonly></textarea>
                 </div>
             </section>
@@ -80,6 +84,7 @@
     <script src="/scripts/ef-notification-topics.js"></script>
     <script src="/scripts/ef-notification-client.js"></script>
     <script src="/scripts/ef-topic-multiselect.js"></script>
+    <script src="/scripts/ef-clipboard.js"></script>
     <script src="/scripts/ef-diagnostics-auth.js"></script>
     <script src="/scripts/user-notifications.js"></script>
     <script src="/nav.js"></script>

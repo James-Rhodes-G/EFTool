@@ -117,10 +117,15 @@
   margin-left: auto;
   font-size: 12px;
   color: var(--muted);
-  max-width: 100%;
+  max-width: min(280px, 40vw);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.message-card__copy {
+  flex-shrink: 0;
+  margin-left: auto;
 }
 
 .message-card__body {

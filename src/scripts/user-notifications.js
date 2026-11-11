@@ -516,5 +516,11 @@ document.addEventListener('DOMContentLoaded', function () {
     window.location.href = '/ef-message-parser.html';
   }
 
+  if (window.EfClipboard) {
+    EfClipboard.bindCopyButton(document.getElementById('copyStreamBtn'), function () {
+      return streamOutput.value;
+    });
+  }
+
   syncControlButtons();
 });

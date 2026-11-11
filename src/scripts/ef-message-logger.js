@@ -515,4 +515,13 @@
   });
 
   beginAuthTokenPolling();
+
+  if (window.EfClipboard) {
+    EfClipboard.bindCopyButton(document.getElementById('copyLogBtn'), function () {
+      return logEl.textContent;
+    });
+    EfClipboard.bindCopyButton(document.getElementById('copyParticipantLogBtn'), function () {
+      return participantLogEl ? participantLogEl.textContent : '';
+    });
+  }
 }());

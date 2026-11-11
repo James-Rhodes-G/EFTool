@@ -445,5 +445,14 @@ document.addEventListener('DOMContentLoaded', function () {
         return response.json();
     }
 
+    if (window.EfClipboard) {
+        EfClipboard.bindCopyButton(document.getElementById('copyStreamBtn'), function () {
+            return streamOutput.value;
+        });
+        EfClipboard.bindCopyButton(document.getElementById('copyLookupBtn'), function () {
+            return lookupOutput.value;
+        });
+    }
+
     syncCallControlButtons();
 });
