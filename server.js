@@ -8,6 +8,8 @@ const path = require('path');
 const express = require('express');
 const { GenesysClient } = require('./src/bridge/genesysClient');
 const { evaluateBridgeRequest } = require('./src/bridge/bridgeService');
+const { getUpdateStatus, startUpdateChecks } = require('./src/lib/github-update-check');
+const { printServerUpdateAlert } = require('./src/lib/update-terminal-alert');
 
 const app = express();
 app.use(express.json({ limit: '5mb' }));
@@ -196,6 +198,18 @@ app.get('/nav.js', function(req, res) {
   );
 });
 
+app.get('/api/app/update', async function(req, res) {
+  try {
+    const status = await getUpdateStatus();
+    res.json(status);
+  } catch (error) {
+    res.status(503).json({
+      updateAvailable: false,
+      error: error && error.message ? error.message : 'Update check failed'
+    });
+  }
+});
+
 app.get('/campaign-display', function(req, res) {
   res.sendFile(path.join(__dirname, 'src', 'campaign-display.html'));
 });
@@ -351,6 +365,7 @@ function startServers() {
   if (httpsServer) {
     httpsServer.listen(httpsPort);
   }
+  startUpdateChecks({ onServerUpdateAvailable: printServerUpdateAlert });
 }
 
 if (require.main === module) {

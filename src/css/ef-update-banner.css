@@ -1,0 +1,45 @@
+.ef-update-banner {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 0 0 12px;
+  padding: 10px 14px;
+  border: 1px solid #d4a017;
+  border-radius: 10px;
+  background: #fff8e6;
+  color: #5c4200;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.ef-update-banner__content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.ef-update-banner__content a {
+  color: #0b5cab;
+  font-weight: 600;
+}
+
+.ef-update-banner__content code {
+  font-family: Menlo, Consolas, monospace;
+  font-size: 0.92em;
+}
+
+.ef-update-banner__dismiss {
+  flex-shrink: 0;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  border: 1px solid #c5a028;
+  background: #fff;
+  cursor: pointer;
+  color: #5c4200;
+}
+
+.ef-update-banner__dismiss:hover {
+  background: #fffdf6;
+}

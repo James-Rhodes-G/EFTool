@@ -9,6 +9,7 @@ The server serves static pages from [`src/`](src/), hosts a local [`framework.js
 ## Table of contents
 
 - [Quick start](#quick-start)
+- [Version monitor](#version-monitor)
 - [HTTPS and local framework](#https-and-local-framework)
 - [Site navigation and tools](#site-navigation-and-tools)
 - [Embedded Framework configuration](#embedded-framework-configuration)
@@ -49,6 +50,22 @@ The server serves static pages from [`src/`](src/), hosts a local [`framework.js
    Install the CA from `https://localhost/ca.crt` (or the file served at `/ca.crt`) if the browser warns about the local certificate.
 
 Default static entry is under `/src`; the in-app nav lists all registered tools.
+
+## Version monitor
+
+On startup the server compares [`package.json`](package.json) `version` to the latest [GitHub Release](https://docs.github.com/en/rest/releases/releases?apiVersion=2022-11-28#get-the-latest-release) for `GITHUB_REPO` (default [`James-Rhodes-G/EFTool`](https://github.com/James-Rhodes-G/EFTool)). If the installed server is behind, a boxed warning is printed in the terminal.
+
+Pages that use [`site-shell.js`](src/scripts/site-shell.js) call `GET /api/app/update` and show a dismissible banner when a newer release is available (with a link to the GitHub release). Dismissal is remembered for the browser session per release version.
+
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| `UPDATE_CHECK_ENABLED` | `1` | Set to `0` to disable checks (offline or CI) |
+| `GITHUB_REPO` | `James-Rhodes-G/EFTool` | `owner/repo` for latest release lookup |
+| `GITHUB_TOKEN` | (none) | Optional; improves GitHub API rate limits |
+| `UPDATE_CHECK_CACHE_TTL_MS` | `3600000` | In-memory cache TTL for release metadata (1 hour) |
+| `UPDATE_CHECK_INTERVAL_MS` | `86400000` | Background re-check interval (24 hours) |
+
+**Releases:** bump `package.json` `version` and publish a GitHub Release with a matching tag (`v1.0.1` or `1.0.1`). The monitor compares semver-style tags only.
 
 ## HTTPS and local framework
 
@@ -179,6 +196,7 @@ The response returns `ACTIVE` when the stored conference is still active, or `NE
 ```
 server.js                 Express app, nav manifest, HTTPS, bridge routes
 src/                      Static HTML, CSS, scripts, framework.js
+src/lib/                  Server helpers (e.g. GitHub update check)
 src/bridge/               Bridge POC service
 src/scripts/              Page logic and shared EF modules
 https-requirements/       Local TLS certificates
