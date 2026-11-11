@@ -40,12 +40,34 @@
       return;
     }
 
-    ['genesys-nav-tokens.css', 'app-global-nav.css'].forEach(function (fileName) {
+    ['genesys-nav-tokens.css', 'app-global-nav.css', 'ef-update-banner.css'].forEach(function (fileName) {
       var css = document.createElement('link');
       css.rel = 'stylesheet';
       css.href = '/css/' + fileName;
       document.head.appendChild(css);
     });
+  }
+
+  function loadUpdateBannerScript(callback) {
+    if (window.EfUpdateBanner) {
+      callback();
+      return;
+    }
+
+    if (document.querySelector('script[data-ef-update-banner]')) {
+      var existing = document.querySelector('script[data-ef-update-banner]');
+      existing.addEventListener('load', callback, { once: true });
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.src = '/scripts/ef-update-banner.js';
+    script.setAttribute('data-ef-update-banner', 'true');
+    script.addEventListener('load', callback, { once: true });
+    script.addEventListener('error', function () {
+      console.warn('[site-shell] Unable to load ef-update-banner.js');
+    }, { once: true });
+    document.head.appendChild(script);
   }
 
   function groupNavItems(navItems, groups) {
@@ -332,6 +354,12 @@
     if (nav) {
       initializeAppNav(nav);
     }
+
+    loadUpdateBannerScript(function () {
+      if (window.EfUpdateBanner && typeof window.EfUpdateBanner.refresh === 'function') {
+        window.EfUpdateBanner.refresh();
+      }
+    });
   }
 
   if (document.readyState === 'loading') {
