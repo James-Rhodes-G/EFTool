@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Campaign Display</title>
     <link rel="stylesheet" href="/css/campaign-display.css">
+    <link rel="stylesheet" href="/css/ef-copy-buttons.css">
 </head>
 <body>
     <main class="page">
@@ -87,17 +88,24 @@ v2.users.{id}.alerting.alerts"></textarea>
 
         <section class="panel outputs">
             <div class="output">
-                <h2>WSS Stream Output</h2>
+                <div class="output-header-row">
+                    <h2>WSS Stream Output</h2>
+                    <button id="copyStreamBtn" type="button" class="btn-copy-all secondary">Copy all</button>
+                </div>
                 <textarea id="streamOutput" rows="22" readonly></textarea>
             </div>
 
             <div class="output">
-                <h2>Contact List Lookup Output</h2>
+                <div class="output-header-row">
+                    <h2>Contact List Lookup Output</h2>
+                    <button id="copyLookupBtn" type="button" class="btn-copy-all secondary">Copy all</button>
+                </div>
                 <textarea id="lookupOutput" rows="22" readonly></textarea>
             </div>
         </section>
     </main>
 
+    <script src="/scripts/ef-clipboard.js"></script>
     <script src="/scripts/genesys-connection-fields.js"></script>
     <script src="/scripts/campaign-display.js"></script>
 

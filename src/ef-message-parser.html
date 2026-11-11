@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>EF Message Parser</title>
   <link rel="stylesheet" href="/css/campaign-display.css">
+  <link rel="stylesheet" href="/css/ef-copy-buttons.css">
   <link rel="stylesheet" href="/css/ef-message-parser.css">
 </head>
 <body>
@@ -13,14 +14,15 @@
       <p class="eyebrow">Embeddable Framework</p>
       <h1>EF Message Parser</h1>
       <p class="lede">
-        Review exported EF postMessage logs one message at a time. Expand each card to inspect the payload
-        with a collapsible JSON tree.
+        Review exported logs from EF Message Logger or User Notifications. Expand each card to inspect the payload
+        with a collapsible JSON tree; use <strong>Copy</strong> on a card to copy the full payload JSON.
       </p>
     </section>
 
     <section class="panel">
       <div class="parser-toolbar">
-        <a class="button secondary" href="/paypaltrouble.html">Back to Logger</a>
+        <a class="button secondary" href="/paypaltrouble.html">Message Logger</a>
+        <a class="button secondary" href="/user-notifications.html">User Notifications</a>
         <label class="parser-filter">
           <input id="hideRawFilter" type="checkbox" checked />
           Hide raw messages
@@ -40,13 +42,14 @@
 
       <div id="emptyState" class="parser-empty" hidden>
         <p>No exported message log was found in this browser session.</p>
-        <p>Open <a href="/paypaltrouble.html">EF Message Logger</a>, collect messages, then click <strong>Open in Parser</strong>.</p>
+        <p>Open <a href="/paypaltrouble.html">EF Message Logger</a> or <a href="/user-notifications.html">User Notifications</a>, collect messages, then click <strong>Open in Parser</strong>.</p>
       </div>
 
       <div id="messageList" class="message-list" aria-live="polite"></div>
     </section>
   </main>
 
+  <script src="/scripts/ef-clipboard.js"></script>
   <script src="/scripts/json-tree.js"></script>
   <script src="/scripts/ef-message-parser.js"></script>
   <script src="/nav.js"></script>

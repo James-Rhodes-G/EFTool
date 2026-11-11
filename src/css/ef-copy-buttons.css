@@ -1,0 +1,36 @@
+.btn-copy-all,
+.btn-copy-json {
+  font-size: 12px;
+  padding: 4px 10px;
+  line-height: 1.35;
+  cursor: pointer;
+  border-radius: 8px;
+  border: 1px solid #c5cdd8;
+  background: #f4f7fb;
+  color: #223041;
+}
+
+.btn-copy-all:hover,
+.btn-copy-json:hover {
+  background: #e8eef5;
+}
+
+.btn-copy-all:disabled,
+.btn-copy-json:disabled {
+  opacity: 0.75;
+  cursor: default;
+}
+
+.output-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.output-header-row h2,
+.output-header-row h3 {
+  margin: 0;
+}

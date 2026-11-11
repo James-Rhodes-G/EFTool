@@ -128,6 +128,7 @@
     card.open = index < 3;
 
     var summary = document.createElement('summary');
+
     summary.innerHTML =
       '<span class="message-card__index">#' + escapeHtml(String(index + 1)) + '</span>' +
       '<span class="message-card__time">' + escapeHtml(formatTimestamp(message.timestamp)) + '</span>' +
@@ -136,6 +137,22 @@
       (message.origin
         ? '<span class="message-card__origin">' + escapeHtml(message.origin) + '</span>'
         : '');
+
+    var copyBtn = document.createElement('button');
+    copyBtn.type = 'button';
+    copyBtn.className = 'btn-copy-json message-card__copy';
+    copyBtn.textContent = 'Copy';
+    copyBtn.setAttribute('aria-label', 'Copy message payload');
+    if (window.EfClipboard) {
+      window.EfClipboard.bindCopyButton(copyBtn, function () {
+        try {
+          return JSON.stringify(message.data, null, 2);
+        } catch (error) {
+          return String(message.data);
+        }
+      });
+    }
+    summary.appendChild(copyBtn);
 
     var body = document.createElement('div');
     body.className = 'message-card__body';
@@ -168,7 +185,7 @@
       emptyStateEl.hidden = false;
       emptyStateEl.innerHTML =
         '<p>No exported message log was found in this browser session.</p>' +
-        '<p>Open <a href="/paypaltrouble.html">EF Message Logger</a>, collect messages, then click <strong>Open in Parser</strong>.</p>';
+        '<p>Open <a href="/paypaltrouble.html">EF Message Logger</a> or <a href="/user-notifications.html">User Notifications</a>, collect messages, then click <strong>Open in Parser</strong>.</p>';
       messageListEl.innerHTML = '';
       return;
     }
